@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
-import React, { FC, useState } from "react";
-import { Task, TaskPropType } from "components/Task";
-import { TaskPriorities, TaskStatuses } from "api/todolist-api";
+import type { Meta, StoryObj } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
+import React, { FC, useState } from "react"
+import { Task, TaskPropType } from "components/Task"
+import { TaskPriorities, TaskStatuses } from "api/todolist-api"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Task> = {
@@ -29,15 +29,15 @@ const meta: Meta<typeof Task> = {
       entityStatus: "idle",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Task>;
+export default meta
+type Story = StoryObj<typeof Task>
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 export const TaskIsDoneStory: Story = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args
-};
+}
 
 export const TaskIsNotStory: Story = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args
@@ -56,20 +56,20 @@ export const TaskIsNotStory: Story = {
       entityStatus: "idle",
     },
   },
-};
+}
 
 const TaskWithHook: FC<TaskPropType> = (args) => {
-  const [task, setTask] = useState(args.task);
+  const [task, setTask] = useState(args.task)
 
   const changeTaskStatus = () => {
-    setTask({ ...task, status: TaskStatuses.New }); //??
-  };
+    setTask({ ...task, status: TaskStatuses.New }) //??
+  }
   const updateTask = (taskId: string, updateTitle: string) => {
-    setTask({ ...task, title: updateTitle });
-  };
+    setTask({ ...task, title: updateTitle })
+  }
 
-  return <Task changeTaskStatus={changeTaskStatus} updateTask={updateTask} removeTask={args.removeTask} task={task} />;
-};
+  return <Task changeTaskStatus={changeTaskStatus} updateTask={updateTask} removeTask={args.removeTask} task={task} />
+}
 
 export const TaskWithHookStory: Story = {
   render: (args) => (
@@ -80,4 +80,4 @@ export const TaskWithHookStory: Story = {
       task={args.task}
     />
   ),
-};
+}

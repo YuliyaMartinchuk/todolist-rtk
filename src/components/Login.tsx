@@ -1,25 +1,25 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import FormLabel from "@mui/material/FormLabel";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "state/store";
-import { loginTC } from "state/authReducer";
-import { Navigate } from "react-router-dom";
+import React from "react"
+import Grid from "@mui/material/Grid"
+import Checkbox from "@mui/material/Checkbox"
+import FormControl from "@mui/material/FormControl"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormGroup from "@mui/material/FormGroup"
+import FormLabel from "@mui/material/FormLabel"
+import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
+import { useFormik } from "formik"
+import { useAppDispatch, useAppSelector } from "state/store"
+import { loginTC } from "state/authReducer"
+import { Navigate } from "react-router-dom"
 
 type ErrorType = {
-  email?: string;
-  password?: string;
-};
+  email?: string
+  password?: string
+}
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -28,28 +28,28 @@ export const Login = () => {
       rememberMe: false,
     },
     validate: (values) => {
-      const errors: ErrorType = {};
+      const errors: ErrorType = {}
       if (!values.email) {
-        errors.email = "Required";
+        errors.email = "Required"
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address";
+        errors.email = "Invalid email address"
       }
 
       if (!values.password) {
-        errors.password = "Required";
+        errors.password = "Required"
       } else if (values.password?.length < 4) {
-        errors.password = "Please add more symbols";
+        errors.password = "Please add more symbols"
       }
 
-      return errors;
+      return errors
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values));
-      formik.resetForm();
+      dispatch(loginTC(values))
+      formik.resetForm()
     },
-  });
+  })
 
-  if (isLoggedIn) return <Navigate to={"/"} />;
+  if (isLoggedIn) return <Navigate to={"/"} />
 
   return (
     <Grid container justifyContent={"center"}>
@@ -87,5 +87,5 @@ export const Login = () => {
         </FormControl>
       </Grid>
     </Grid>
-  );
-};
+  )
+}

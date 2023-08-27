@@ -1,37 +1,37 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
+import Button from "@mui/material/Button"
+import TextField from "@mui/material/TextField"
 
 export type PropsType = {
-  callBack: (newTitle: string) => void;
-  disabled?: boolean;
-};
+  callBack: (newTitle: string) => void
+  disabled?: boolean
+}
 
 export const AddItemForm = memo((props: PropsType) => {
   // console.log("AddItemForm")
-  let [title, setTitle] = useState("");
-  let [error, setError] = useState<string | null>(null);
+  let [title, setTitle] = useState("")
+  let [error, setError] = useState<string | null>(null)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
-  };
+    setTitle(e.currentTarget.value)
+  }
 
   const addTask = () => {
-    let newTitle = title.trim();
+    let newTitle = title.trim()
     if (newTitle !== "") {
-      props.callBack(newTitle);
-      setTitle("");
+      props.callBack(newTitle)
+      setTitle("")
     } else {
-      setError("Title is required");
+      setError("Title is required")
     }
-  };
+  }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (error) setError(null);
+    if (error) setError(null)
     if (e.charCode === 13) {
-      addTask();
+      addTask()
     }
-  };
+  }
 
   const muiStyles = {
     maxWidth: "40px",
@@ -39,7 +39,7 @@ export const AddItemForm = memo((props: PropsType) => {
     minWidth: "40px",
     minHeight: "40px",
     backgroundColor: "black",
-  };
+  }
 
   return (
     <div>
@@ -58,5 +58,5 @@ export const AddItemForm = memo((props: PropsType) => {
         +
       </Button>
     </div>
-  );
-});
+  )
+})

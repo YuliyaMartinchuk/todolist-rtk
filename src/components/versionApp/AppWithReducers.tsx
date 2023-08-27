@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 // import './App.css';
 // import {TaskType, Todolist} from './Todolist';
 // import {v1} from 'uuid';
