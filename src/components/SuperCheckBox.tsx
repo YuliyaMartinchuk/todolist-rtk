@@ -1,10 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export const SuperCheckBox = () => {
-    return (
-        <div>
-
-        </div>
-    );
+  return <div></div>;
 };
-
