@@ -4,6 +4,7 @@ import { Result_Code } from "./tasksReducer"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { appActions } from "state/appReducer"
+import { clearTasksAndTodolists } from "common/commonActions"
 
 const slice = createSlice({
   name: "auth",
@@ -44,6 +45,7 @@ export const logOutTC = () => async (dispatch: Dispatch) => {
     if (res.data.resultCode === Result_Code.OK) {
       dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }))
       dispatch(appActions.setStatus({ status: "succeeded" }))
+      dispatch(clearTasksAndTodolists())
     } else {
       handleServerAppError(dispatch, res.data)
     }

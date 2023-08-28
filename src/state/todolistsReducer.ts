@@ -5,6 +5,7 @@ import { ErrorType, Result_Code } from "./tasksReducer"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import axios from "axios"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { clearTasksAndTodolists } from "common/commonActions"
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodolistDomainType = TodolistType & {
@@ -56,6 +57,11 @@ const slice = createSlice({
         state.push({ ...todo, filter: "all", entityStatus: "idle" })
       })
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(clearTasksAndTodolists.type, () => {
+      return []
+    })
   },
 })
 

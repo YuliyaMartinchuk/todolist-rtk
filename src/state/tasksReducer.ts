@@ -7,6 +7,7 @@ import axios from "axios"
 import { AssocTaskType } from "components/TodolistsList"
 import { todolistsActions } from "state/todolistsReducer"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { clearTasksAndTodolists } from "common/commonActions"
 
 const slice = createSlice({
   name: "tasks",
@@ -71,6 +72,9 @@ const slice = createSlice({
         action.payload.todolist.forEach((todo) => {
           state[todo.id] = []
         })
+      })
+      .addCase(clearTasksAndTodolists.type, () => {
+        return {}
       })
   },
 })
