@@ -19,6 +19,10 @@ import { TaskStatuses, TaskType } from "api/todolist-api"
 import { RequestStatusType } from "state/appReducer"
 import { Navigate } from "react-router-dom"
 
+export type TasksStateType = {
+  [key: string]: TaskType[]
+}
+
 export type AssocTaskType = {
   [key: string]: TaskDomainType[]
 }
