@@ -4,7 +4,7 @@ import { EditableSpan } from "./EditableSpan"
 import IconButton from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { TaskStatuses } from "api/todolist-api"
-import { TaskDomainType } from "./versionApp/AppWithRedux"
+import { TaskDomainType } from "components/TodolistsList"
 
 export type TaskPropType = {
   task: TaskDomainType

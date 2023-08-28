@@ -5,12 +5,12 @@ import { AddItemForm } from "./AddItemForm"
 import { Grid, Paper } from "@mui/material"
 import { updateTaskTC, createTaskTC, deleteTaskTC } from "state/tasksReducer"
 import {
-  changeFilterAC,
   changeTodolistTC,
   createTodolistTC,
   deleteTodolistTC,
   FilterValuesType,
   getTodoliststTC,
+  todolistsActions,
 } from "state/todolistsReducer"
 import { useSelector } from "react-redux"
 import { AppRootStateType, useAppDispatch, useAppSelector } from "state/store"
@@ -53,8 +53,8 @@ export const TodolistsList: React.FC = () => {
   )
 
   const changeFilter = useCallback(
-    (todolistId: string, value: FilterValuesType) => {
-      dispatch(changeFilterAC(todolistId, value))
+    (todolistId: string, filter: FilterValuesType) => {
+      dispatch(todolistsActions.changeTodolistFilter({ todolistId, filter }))
     },
     [dispatch]
   )

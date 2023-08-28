@@ -1,7 +1,7 @@
-import { AssocTaskType } from "components/versionApp/AppWithRedux"
 import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from "./tasksReducer"
-import { addTodoliststAC, removeTodolistAC } from "./todolistsReducer"
 import { TaskPriorities, TaskStatuses } from "api/todolist-api"
+import { AssocTaskType } from "components/TodolistsList"
+import { todolistsActions } from "state/todolistsReducer"
 
 let startState: AssocTaskType
 
@@ -219,12 +219,13 @@ test("title of specified task should be changed", () => {
 })
 
 test("new array should be added when new todolist is added", () => {
-  const action = addTodoliststAC({
+  const todolist = {
     id: "3",
     title: "bread",
     order: 0,
     addedDate: "",
-  })
+  }
+  const action = todolistsActions.addTodolistst({ todolist: todolist })
 
   const endState = tasksReducer(startState, action)
 
@@ -239,7 +240,7 @@ test("new array should be added when new todolist is added", () => {
 })
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistAC("todolistId2")
+  const action = todolistsActions.removeTodolist({ todolistId: "todolistId2" })
 
   const endState = tasksReducer(startState, action)
 

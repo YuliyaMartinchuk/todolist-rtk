@@ -11,7 +11,7 @@ import { FilterValuesType } from "state/todolistsReducer"
 import { useAppDispatch } from "state/store"
 import { getTaskTC } from "state/tasksReducer"
 import { RequestStatusType } from "state/appReducer"
-import { TaskDomainType } from "./versionApp/AppWithRedux"
+import { TaskDomainType } from "components/TodolistsList"
 
 type PropsType = {
   todolistId: string
@@ -94,7 +94,7 @@ export const Todolist = memo((props: PropsType) => {
         <AddItemForm disabled={props.entityStatus === "loading"} callBack={addTaskHandler} />
       </div>
       <div>
-        {tasks.map((t) => {
+        {tasks?.map((t) => {
           return (
             <Task
               key={t.id}

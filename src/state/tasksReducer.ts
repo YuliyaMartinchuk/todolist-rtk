@@ -1,11 +1,10 @@
-import { AssocTaskType } from "components/versionApp/AppWithRedux"
-import { addTodoliststACType, removeTodolistACType, setTodoliststACType } from "./todolistsReducer"
 import { TaskType, TodolistApi, UpdateDomainTaskModelType, UpdateTaskModelType } from "api/todolist-api"
 import { Dispatch } from "redux"
 import { AppRootStateType } from "./store"
 import { appActions, RequestStatusType } from "./appReducer"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import axios from "axios"
+import { AssocTaskType } from "components/TodolistsList"
 
 const initialState: AssocTaskType = {}
 
@@ -59,7 +58,7 @@ export const tasksReducer = (state = initialState, action: ActionsType): AssocTa
     }
     case "SET-TODOLIST": {
       const stateCopy = { ...state }
-      action.payload.todolist.forEach((tl) => {
+      action.payload.todolist.forEach((tl: any) => {
         stateCopy[tl.id] = []
       })
       return stateCopy
@@ -67,7 +66,7 @@ export const tasksReducer = (state = initialState, action: ActionsType): AssocTa
     case "SET-TASK": {
       return {
         ...state,
-        [action.payload.todolistId]: action.payload.tasks.map((t) => ({ ...t, entityStatus: "idle" })),
+        [action.payload.todolistId]: action.payload.tasks.map((t: any) => ({ ...t, entityStatus: "idle" })),
       }
     }
 
@@ -217,17 +216,13 @@ export type ErrorType = {
 
 export type ActionsType =
   | removeTaskACType
-  // | changeStatusACType
   | addTaskACType
   | updateTaskACType
-  | addTodoliststACType
-  | removeTodolistACType
-  | setTodoliststACType
   | setTaskACType
   | changeEntityTaskStatusACTyoe
+  | any
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
-// type changeStatusACType = ReturnType<typeof changeStatusAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
 type updateTaskACType = ReturnType<typeof updateTaskAC>
 type setTaskACType = ReturnType<typeof setTaskAC>
