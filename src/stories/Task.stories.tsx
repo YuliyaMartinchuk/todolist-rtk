@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import React, { FC, useState } from "react"
-import { Task, TaskPropType } from "components/Task"
+import { Task, TaskPropType } from "features/TodolistsList/Task"
 import { TaskPriorities, TaskStatuses } from "api/todolist-api"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

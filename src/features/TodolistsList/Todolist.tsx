@@ -1,17 +1,17 @@
 import React, { memo, useCallback, useEffect } from "react"
 
-import { AddItemForm } from "./AddItemForm"
-import { EditableSpan } from "./EditableSpan"
+import { AddItemForm } from "components/AddItemForm"
+import { EditableSpan } from "components/EditableSpan"
 import DeleteIcon from "@mui/icons-material/Delete"
 import IconButton from "@mui/material/IconButton"
 import Button, { ButtonProps } from "@mui/material/Button"
-import { Task } from "./Task"
+import { Task } from "features/TodolistsList/Task"
 import { TaskStatuses } from "api/todolist-api"
-import { FilterValuesType } from "state/todolistsReducer"
-import { useAppDispatch } from "state/store"
-import { getTaskTC } from "state/tasksReducer"
-import { RequestStatusType } from "state/appReducer"
-import { TaskDomainType } from "components/TodolistsList"
+import { FilterValuesType } from "features/TodolistsList/todolistsReducer"
+import { useAppDispatch } from "app/store"
+import { getTaskTC } from "features/TodolistsList/tasksReducer"
+import { RequestStatusType } from "app/appReducer"
+import { TaskDomainType } from "features/TodolistsList/TodolistsList"
 
 type PropsType = {
   todolistId: string

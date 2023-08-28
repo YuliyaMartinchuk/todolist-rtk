@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from "react"
-import "../App.css"
-import { Todolist } from "./Todolist"
-import { AddItemForm } from "./AddItemForm"
+import "app/App.css"
+import { Todolist } from "features/TodolistsList/Todolist"
+import { AddItemForm } from "components/AddItemForm"
 import { Grid, Paper } from "@mui/material"
-import { updateTaskTC, createTaskTC, deleteTaskTC } from "state/tasksReducer"
+import { updateTaskTC, createTaskTC, deleteTaskTC } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
   createTodolistTC,
@@ -11,17 +11,15 @@ import {
   FilterValuesType,
   getTodoliststTC,
   todolistsActions,
-} from "state/todolistsReducer"
+} from "features/TodolistsList/todolistsReducer"
 import { useSelector } from "react-redux"
-import { AppRootStateType, useAppDispatch, useAppSelector } from "state/store"
-import { todoliststsSelector } from "state/selectors"
+import { useAppDispatch } from "app/store"
 import { TaskStatuses, TaskType } from "api/todolist-api"
-import { RequestStatusType } from "state/appReducer"
+import { RequestStatusType } from "app/appReducer"
 import { Navigate } from "react-router-dom"
-
-export type TasksStateType = {
-  [key: string]: TaskType[]
-}
+import { selectTasks } from "features/TodolistsList/tasksSelector"
+import { selectTodolists } from "features/TodolistsList/todolistsSelector"
+import { selectIsLoggedIn } from "features/Login/authSelector"
 
 export type AssocTaskType = {
   [key: string]: TaskDomainType[]
@@ -32,9 +30,9 @@ export type TaskDomainType = TaskType & {
 }
 
 export const TodolistsList: React.FC = () => {
-  let todolists = useSelector(todoliststsSelector)
-  let tasks = useSelector<AppRootStateType, AssocTaskType>((state) => state.tasks)
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
+  const todolists = useSelector(selectTodolists)
+  const tasks = useSelector(selectTasks)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

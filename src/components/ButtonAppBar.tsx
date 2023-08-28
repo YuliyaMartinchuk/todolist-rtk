@@ -6,11 +6,13 @@ import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
-import { logOutTC } from "state/authReducer"
-import { useAppDispatch, useAppSelector } from "state/store"
+import { logOutTC } from "features/Login/authReducer"
+import { useAppDispatch } from "app/store"
+import { useSelector } from "react-redux"
+import { selectIsLoggedIn } from "features/Login/authSelector"
 
 export default function ButtonAppBar() {
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const LogOutHandler = () => {
     dispatch(logOutTC)

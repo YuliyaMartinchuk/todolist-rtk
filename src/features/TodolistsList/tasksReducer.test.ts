@@ -1,7 +1,7 @@
-import { tasksActions, tasksReducer } from "./tasksReducer"
+import { tasksActions, tasksReducer } from "features/TodolistsList/tasksReducer"
 import { TaskPriorities, TaskStatuses } from "api/todolist-api"
-import { AssocTaskType } from "components/TodolistsList"
-import { todolistsActions } from "state/todolistsReducer"
+import { AssocTaskType } from "features/TodolistsList/TodolistsList"
+import { todolistsActions } from "features/TodolistsList/todolistsReducer"
 
 let startState: AssocTaskType
 

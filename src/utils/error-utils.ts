@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
 import { ResponseType } from "api/todolist-api"
-import { appActions } from "state/appReducer"
+import { appActions } from "app/appReducer"
 
 export const handleServerNetworkError = (dispatch: Dispatch, error: string) => {
   dispatch(appActions.setError({ error: error }))

@@ -1,5 +1,10 @@
 import { v1 } from "uuid"
-import { FilterValuesType, TodolistDomainType, todolistsActions, todolistsReducer } from "./todolistsReducer"
+import {
+  FilterValuesType,
+  TodolistDomainType,
+  todolistsActions,
+  todolistsReducer,
+} from "features/TodolistsList/todolistsReducer"
 
 let todolistId1: string
 let todolistId2: string

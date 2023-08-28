@@ -1,9 +1,9 @@
 import { Dispatch } from "redux"
 import { authAPI, LoginType } from "api/todolist-api"
-import { Result_Code } from "./tasksReducer"
+import { Result_Code } from "features/TodolistsList/tasksReducer"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { appActions } from "state/appReducer"
+import { appActions } from "app/appReducer"
 import { clearTasksAndTodolists } from "common/commonActions"
 
 const slice = createSlice({

@@ -1,6 +1,6 @@
-import { TodolistDomainType, todolistsActions, todolistsReducer } from "./todolistsReducer"
-import { tasksReducer } from "./tasksReducer"
-import { AssocTaskType } from "components/TodolistsList"
+import { TodolistDomainType, todolistsActions, todolistsReducer } from "features/TodolistsList/todolistsReducer"
+import { tasksReducer } from "features/TodolistsList/tasksReducer"
+import { AssocTaskType } from "features/TodolistsList/TodolistsList"
 
 test("ids should be equals", () => {
   const startTasksState: AssocTaskType = {}
