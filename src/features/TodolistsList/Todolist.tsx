@@ -9,9 +9,9 @@ import { Task } from "features/TodolistsList/Task"
 import { TaskStatuses } from "api/todolist-api"
 import { FilterValuesType } from "features/TodolistsList/todolistsReducer"
 import { useAppDispatch } from "app/store"
-import { getTaskTC } from "features/TodolistsList/tasksReducer"
 import { RequestStatusType } from "app/appReducer"
 import { TaskDomainType } from "features/TodolistsList/TodolistsList"
+import { tasksThunks } from "features/TodolistsList/tasksReducer"
 
 type PropsType = {
   todolistId: string
@@ -33,7 +33,7 @@ export const Todolist = memo((props: PropsType) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getTaskTC(props.todolistId))
+    dispatch(tasksThunks.getTask(props.todolistId))
   }, [])
 
   const removeTodolist = () => props.removeTodolist(props.todolistId)
