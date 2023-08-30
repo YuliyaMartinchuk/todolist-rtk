@@ -1,9 +1,8 @@
 import { TaskType, TodolistApi, UpdateDomainTaskModelType, UpdateTaskModelType } from "api/todolist-api"
 import { Dispatch } from "redux"
-import { AppRootStateType } from "app/store"
+import { AppRootState } from "app/store"
 import { appActions, RequestStatusType } from "app/appReducer"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
-import axios from "axios"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
 import { todolistsActions } from "features/TodolistsList/todolistsReducer"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
@@ -86,7 +85,7 @@ const slice = createSlice({
 })
 
 const getTask = createAppAsyncThunk<{ todolistId: string; tasks: TaskType[] }, string>(
-  "tasks/getTask",
+  "tasks/getTasks",
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
     try {
@@ -96,13 +95,7 @@ const getTask = createAppAsyncThunk<{ todolistId: string; tasks: TaskType[] }, s
       dispatch(appActions.setStatus({ status: "succeeded" }))
       return { todolistId, tasks }
     } catch (e) {
-      if (axios.isAxiosError<ErrorType>(e)) {
-        const error = e.response ? e.response?.data.messages[0].message : e.message
-        handleServerNetworkError(dispatch, error)
-        return rejectWithValue(null)
-      }
-      const error = (e as Error).message
-      handleServerNetworkError(dispatch, error)
+      handleServerNetworkError(dispatch, e)
       return rejectWithValue(null)
     }
   }
@@ -120,14 +113,7 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => async (dispa
       handleServerAppError(dispatch, res.data)
     }
   } catch (e) {
-    if (axios.isAxiosError<ErrorType>(e)) {
-      const error = e.response ? e.response?.data.messages[0].message : e.message
-      handleServerNetworkError(dispatch, error)
-      dispatch(tasksActions.changeEntityTaskStatus({ todolistId, taskId, entityStatus: "idle" }))
-      return
-    }
-    const error = (e as Error).message
-    handleServerNetworkError(dispatch, error)
+    handleServerNetworkError(dispatch, e)
     dispatch(tasksActions.changeEntityTaskStatus({ todolistId, taskId, entityStatus: "idle" }))
   }
 }
@@ -143,19 +129,13 @@ export const createTaskTC = (todolistId: string, title: string) => async (dispat
       handleServerAppError(dispatch, res.data)
     }
   } catch (e) {
-    if (axios.isAxiosError<ErrorType>(e)) {
-      const error = e.response ? e.response?.data.messages[0].message : e.message
-      handleServerNetworkError(dispatch, error)
-      return
-    }
-    const error = (e as Error).message
-    handleServerNetworkError(dispatch, error)
+    handleServerNetworkError(dispatch, e)
   }
 }
 
 export const updateTaskTC =
   (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
-  async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+  async (dispatch: Dispatch, getState: () => AppRootState) => {
     dispatch(appActions.setStatus({ status: "loading" }))
     const task = getState().tasks[todolistId].find((t) => t.id === taskId)
 
@@ -178,13 +158,7 @@ export const updateTaskTC =
           handleServerAppError(dispatch, res.data)
         }
       } catch (e) {
-        if (axios.isAxiosError<ErrorType>(e)) {
-          const error = e.response ? e.response?.data.messages[0].message : e.message
-          handleServerNetworkError(dispatch, error)
-          return
-        }
-        const error = (e as Error).message
-        handleServerNetworkError(dispatch, error)
+        handleServerNetworkError(dispatch, e)
       }
     }
   }
