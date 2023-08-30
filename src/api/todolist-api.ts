@@ -43,12 +43,12 @@ export const TodolistApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
   },
-  createTasks(todolistId: string, title: string) {
+  createTasks(arg: AddTaskArg) {
     return instance.post<
       ResponseType<{ item: TaskType }>,
       AxiosResponse<ResponseType<{ item: TaskType }>>,
       { title: string }
-    >(`todo-lists/${todolistId}/tasks`, { title })
+    >(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title })
   },
   deleteTasks(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
@@ -61,6 +61,12 @@ export const TodolistApi = {
     >(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }
+
+export type AddTaskArg = {
+  todolistId: string
+  title: string
+}
+
 export type ResponseType<T = {}> = {
   resultCode: number
   messages: string[]

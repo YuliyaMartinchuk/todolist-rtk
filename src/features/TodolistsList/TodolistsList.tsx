@@ -3,7 +3,7 @@ import "app/App.css"
 import { Todolist } from "features/TodolistsList/Todolist"
 import { AddItemForm } from "components/AddItemForm"
 import { Grid, Paper } from "@mui/material"
-import { updateTaskTC, createTaskTC, deleteTaskTC } from "features/TodolistsList/tasksReducer"
+import { updateTaskTC, deleteTaskTC, tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
   createTodolistTC,
@@ -70,7 +70,7 @@ export const TodolistsList: React.FC = () => {
 
   const addTask = useCallback(
     (todolistId: string, title: string) => {
-      dispatch(createTaskTC(todolistId, title))
+      dispatch(tasksThunks.createTask({ todolistId, title }))
     },
     [dispatch]
   )

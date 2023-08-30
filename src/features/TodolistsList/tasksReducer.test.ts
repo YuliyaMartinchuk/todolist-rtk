@@ -1,4 +1,4 @@
-import { tasksActions, tasksReducer } from "features/TodolistsList/tasksReducer"
+import { tasksActions, tasksReducer, tasksThunks } from "features/TodolistsList/tasksReducer"
 import { TaskPriorities, TaskStatuses } from "api/todolist-api"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
 import { todolistsActions } from "features/TodolistsList/todolistsReducer"
@@ -178,7 +178,11 @@ test("correct task should be added to correct array", () => {
     order: 0,
     addedDate: "",
   }
-  const action = tasksActions.addTask({ task: task })
+  //const action = tasksActions.addTask({ task: task })
+  const action = tasksThunks.createTask.fulfilled({ task }, "requestId", {
+    title: task.title,
+    todolistId: task.todoListId,
+  })
   const endState = tasksReducer(startState, action)
 
   expect(endState["todolistId1"].length).toBe(3)
