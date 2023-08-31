@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress/CircularProgress"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { RequestStatusType } from "app/appReducer"
 import { logOutTC, meTC } from "features/Login/authReducer"
-import { ErrorSnackbar } from "components/ErrorSnackbar"
+
 import { Login } from "features/Login/Login"
 import { TodolistsList } from "features/TodolistsList/TodolistsList"
 import Button from "@mui/material/Button"
@@ -17,6 +17,7 @@ import Toolbar from "@mui/material/Toolbar"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import Typography from "@mui/material/Typography"
+import { ErrorSnackbar } from "common/components"
 
 function App() {
   const dispatch = useAppDispatch()

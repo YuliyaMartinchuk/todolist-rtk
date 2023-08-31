@@ -11,7 +11,7 @@ import { useAppDispatch } from "app/store"
 import { useSelector } from "react-redux"
 import { selectIsLoggedIn } from "features/Login/authSelector"
 
-export default function ButtonAppBar() {
+export function ButtonAppBar() {
   const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const LogOutHandler = () => {

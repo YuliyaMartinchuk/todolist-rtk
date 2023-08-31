@@ -3,7 +3,7 @@ import { action } from "@storybook/addon-actions"
 
 import React, { ChangeEvent, FC, KeyboardEvent, useState } from "react"
 import TextField from "@mui/material/TextField/TextField"
-import { AddItemForm, PropsType } from "components/AddItemForm"
+import { AddItemForm, PropsType } from "common/components/AddItemForm/AddItemForm"
 import Button from "@mui/material/Button"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

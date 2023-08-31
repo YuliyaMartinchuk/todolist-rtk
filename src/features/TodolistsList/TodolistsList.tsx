@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react"
 import "app/App.css"
-import { Todolist } from "features/TodolistsList/Todolist"
-import { AddItemForm } from "components/AddItemForm"
+import { Todolist } from "features/TodolistsList/Todolist/Todolist"
 import { Grid, Paper } from "@mui/material"
 import { updateTaskTC, deleteTaskTC, tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
@@ -14,12 +13,14 @@ import {
 } from "features/TodolistsList/todolistsReducer"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app/store"
-import { TaskStatuses, TaskType } from "api/todolist-api"
 import { RequestStatusType } from "app/appReducer"
 import { Navigate } from "react-router-dom"
 import { selectTasks } from "features/TodolistsList/tasksSelector"
 import { selectTodolists } from "features/TodolistsList/todolistsSelector"
 import { selectIsLoggedIn } from "features/Login/authSelector"
+import { AddItemForm } from "common/components"
+import { TaskStatuses } from "common/enums"
+import { TaskType } from "features/TodolistsList/tasksApi.types"
 
 export type AssocTaskType = {
   [key: string]: TaskDomainType[]
