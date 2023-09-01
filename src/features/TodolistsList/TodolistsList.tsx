@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react"
 import "app/App.css"
 import { Todolist } from "features/TodolistsList/Todolist/Todolist"
 import { Grid, Paper } from "@mui/material"
-import { updateTaskTC, deleteTaskTC, tasksThunks } from "features/TodolistsList/tasksReducer"
+import { deleteTaskTC, tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
   createTodolistTC,
@@ -50,7 +50,7 @@ export const TodolistsList: React.FC = () => {
 
   const changeStatus = useCallback(
     (todolistId: string, taskId: string, status: TaskStatuses) => {
-      dispatch(updateTaskTC(todolistId, taskId, { status }))
+      dispatch(tasksThunks.updateTask({ todolistId, taskId, domainModel: { status } }))
     },
     [dispatch]
   )
@@ -84,8 +84,8 @@ export const TodolistsList: React.FC = () => {
   )
 
   const updateTask = useCallback(
-    (todolistId: string, taskId: string, updateTitle: string) => {
-      dispatch(updateTaskTC(todolistId, taskId, { title: updateTitle }))
+    (todolistId: string, taskId: string, title: string) => {
+      dispatch(tasksThunks.updateTask({ todolistId, taskId, domainModel: { title } }))
     },
     [dispatch]
   )

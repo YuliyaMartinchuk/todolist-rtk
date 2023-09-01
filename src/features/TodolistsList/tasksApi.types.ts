@@ -5,6 +5,12 @@ export type AddTaskArg = {
   title: string
 }
 
+export type UpdateTaskArg = {
+  todolistId: string
+  taskId: string
+  domainModel: UpdateDomainTaskModelType
+}
+
 export type GetTaskBaseResponse = {
   totalCount: number
   error: string | null
