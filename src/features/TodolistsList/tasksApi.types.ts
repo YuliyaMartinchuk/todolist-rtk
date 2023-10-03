@@ -5,6 +5,11 @@ export type AddTaskArg = {
   title: string
 }
 
+export type RemoveTaskArg = {
+  todolistId: string
+  taskId: string
+}
+
 export type UpdateTaskArg = {
   todolistId: string
   taskId: string

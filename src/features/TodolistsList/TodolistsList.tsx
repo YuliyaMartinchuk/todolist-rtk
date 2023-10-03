@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react"
 import "app/App.css"
 import { Todolist } from "features/TodolistsList/Todolist/Todolist"
 import { Grid, Paper } from "@mui/material"
-import { deleteTaskTC, tasksThunks } from "features/TodolistsList/tasksReducer"
+import { tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
   createTodolistTC,
@@ -43,7 +43,7 @@ export const TodolistsList: React.FC = () => {
 
   const removeTask = useCallback(
     (todolistId: string, taskId: string) => {
-      dispatch(deleteTaskTC(todolistId, taskId))
+      dispatch(tasksThunks.deleteTask({ todolistId, taskId }))
     },
     [dispatch]
   )
