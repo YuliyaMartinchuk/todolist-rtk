@@ -78,7 +78,7 @@ export const DeleteTasks = () => {
   useEffect(() => {
     const todolistId = "33d7f09c-30bd-4857-9c5d-c17bf5be727d"
     const taskId = "8288b75a-7b78-46ef-80ea-2f24defe1a05"
-    tasksApi.deleteTasks(todolistId, taskId).then((res) => {
+    tasksApi.deleteTasks({ todolistId, taskId }).then((res) => {
       setState(res.data)
     })
   }, [])

@@ -1,5 +1,10 @@
 {
   "name": "todolist-rtk",
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -128,7 +128,7 @@ export const deleteTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
       dispatch(
         tasksActions.changeEntityTaskStatus({ todolistId: arg.todolistId, taskId: arg.taskId, entityStatus: "loading" })
       )
-      const res = await tasksApi.deleteTasks(arg.todolistId, arg.taskId)
+      const res = await tasksApi.deleteTasks({ todolistId: arg.todolistId, taskId: arg.taskId })
       if (res.data.resultCode === Result_Code.OK) {
         dispatch(appActions.setStatus({ status: "succeeded" }))
         return arg
