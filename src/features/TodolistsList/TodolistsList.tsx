@@ -8,8 +8,8 @@ import {
   createTodolistTC,
   deleteTodolistTC,
   FilterValuesType,
-  getTodoliststTC,
   todolistsActions,
+  todolistsThunks,
 } from "features/TodolistsList/todolistsReducer"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app/store"
@@ -38,7 +38,7 @@ export const TodolistsList: React.FC = () => {
 
   useEffect(() => {
     if (!isLoggedIn) return
-    dispatch(getTodoliststTC())
+    dispatch(todolistsThunks.getTodolistst())
   }, [])
 
   const removeTask = useCallback(
