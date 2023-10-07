@@ -5,7 +5,6 @@ import { Grid, Paper } from "@mui/material"
 import { tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
-  createTodolistTC,
   FilterValuesType,
   todolistsActions,
   todolistsThunks,
@@ -77,7 +76,7 @@ export const TodolistsList: React.FC = () => {
 
   const addTodolists = useCallback(
     (newTitle: string) => {
-      dispatch(createTodolistTC(newTitle))
+      dispatch(todolistsThunks.addTodolist(newTitle))
     },
     [dispatch]
   )

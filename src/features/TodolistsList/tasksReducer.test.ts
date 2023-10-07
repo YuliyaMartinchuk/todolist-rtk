@@ -1,7 +1,7 @@
 import { TaskPriorities, TaskStatuses } from "common/enums"
 import { tasksReducer, tasksThunks } from "features/TodolistsList/tasksReducer"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
-import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolistsReducer"
+import { todolistsThunks } from "features/TodolistsList/todolistsReducer"
 
 let startState: AssocTaskType
 
@@ -160,12 +160,12 @@ test("new array should be added when new todolist is added", () => {
     order: 0,
     addedDate: "",
   }
-  const action = todolistsActions.addTodolistst({ todolist: todolist })
+  const action = todolistsThunks.addTodolist.fulfilled({ todolist }, "requestId", todolist.title)
 
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
-  const newKey = keys.find((k) => k != "todolistId1" && k != "todolistId2")
+  const newKey = keys.find((k) => k !== "todolistId1" && k !== "todolistId2")
   if (!newKey) {
     throw Error("new key should be added")
   }

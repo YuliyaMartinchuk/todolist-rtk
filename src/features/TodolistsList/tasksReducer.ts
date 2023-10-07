@@ -1,6 +1,6 @@
 import { appActions, RequestStatusType } from "app/appReducer"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
-import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolistsReducer"
+import { todolistsThunks } from "features/TodolistsList/todolistsReducer"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils"
 import { Result_Code } from "common/enums"
@@ -58,7 +58,7 @@ const slice = createSlice({
         const index = tasksForTodolist.findIndex((task) => task.id === action.payload.taskId)
         if (index !== -1) tasksForTodolist.splice(index, 1)
       })
-      .addCase(todolistsActions.addTodolistst, (state, action) => {
+      .addCase(todolistsThunks.addTodolist.fulfilled, (state, action) => {
         state[action.payload.todolist.id] = []
       })
       .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {

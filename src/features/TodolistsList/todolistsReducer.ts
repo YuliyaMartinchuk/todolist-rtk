@@ -19,9 +19,6 @@ const slice = createSlice({
   name: "todolists",
   initialState: [] as TodolistDomainType[],
   reducers: {
-    addTodolistst: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
-      state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
-    },
     changeTodolistTitle: (state, action: PayloadAction<{ todolistId: string; title: string }>) => {
       const index = state.findIndex((todo) => todo.id === action.payload.todolistId)
       if (index !== -1) state[index].title = action.payload.title
@@ -51,6 +48,9 @@ const slice = createSlice({
       })
       .addCase(clearTasksAndTodolists.type, () => {
         return []
+      })
+      .addCase(addTodolist.fulfilled, (state, action) => {
+        state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
       })
   },
 })
@@ -92,20 +92,25 @@ export const removeTodolist = createAppAsyncThunk<{ todolistId: string }, string
   }
 )
 
-export const createTodolistTC = (newTitle: string) => async (dispatch: Dispatch) => {
-  dispatch(appActions.setStatus({ status: "loading" }))
-  try {
-    const res = await todolistsApi.createTodoLists(newTitle)
-    if (res.data.resultCode === Result_Code.OK) {
-      dispatch(todolistsActions.addTodolistst({ todolist: res.data.data.item }))
-      dispatch(appActions.setStatus({ status: "succeeded" }))
-    } else {
-      handleServerAppError(dispatch, res.data)
+export const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
+  "todolists/addTodolistst",
+  async (newTitle, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI
+    try {
+      const res = await todolistsApi.createTodoLists(newTitle)
+      if (res.data.resultCode === Result_Code.OK) {
+        dispatch(appActions.setStatus({ status: "succeeded" }))
+        return { todolist: res.data.data.item }
+      } else {
+        handleServerAppError(dispatch, res.data)
+        return rejectWithValue(null)
+      }
+    } catch (e) {
+      handleServerNetworkError(dispatch, e)
+      return rejectWithValue(null)
     }
-  } catch (e) {
-    handleServerNetworkError(dispatch, e)
   }
-}
+)
 
 export const changeTodolistTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
   dispatch(appActions.setStatus({ status: "loading" }))
@@ -124,4 +129,4 @@ export const changeTodolistTC = (todolistId: string, title: string) => async (di
 
 export const todolistsReducer = slice.reducer
 export const todolistsActions = slice.actions
-export const todolistsThunks = { getTodolistst, removeTodolist }
+export const todolistsThunks = { getTodolistst, removeTodolist, addTodolist }
