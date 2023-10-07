@@ -6,7 +6,6 @@ import { tasksThunks } from "features/TodolistsList/tasksReducer"
 import {
   changeTodolistTC,
   createTodolistTC,
-  deleteTodolistTC,
   FilterValuesType,
   todolistsActions,
   todolistsThunks,
@@ -64,7 +63,7 @@ export const TodolistsList: React.FC = () => {
 
   const removeTodolist = useCallback(
     (todolistId: string) => {
-      dispatch(deleteTodolistTC(todolistId))
+      dispatch(todolistsThunks.removeTodolist(todolistId))
     },
     [dispatch]
   )

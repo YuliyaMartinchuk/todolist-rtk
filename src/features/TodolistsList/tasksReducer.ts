@@ -1,6 +1,6 @@
 import { appActions, RequestStatusType } from "app/appReducer"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
-import { todolistsActions } from "features/TodolistsList/todolistsReducer"
+import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolistsReducer"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils"
 import { Result_Code } from "common/enums"
@@ -22,7 +22,6 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ todolistId: string; taskId: string; entityStatus: RequestStatusType }>
     ) => {
-      //return { ...state, [action.payload.todolistId]: state[action.payload.todolistId].map((el) => el.id === action.payload.taskId ? { ...el, entityStatus: action.payload.entityStatus } : el), }
       const tasksForTodolist = state[action.payload.todolistId]
       const index = tasksForTodolist.findIndex((task) => task.id === action.payload.taskId)
       if (index !== -1)
@@ -60,20 +59,13 @@ const slice = createSlice({
         if (index !== -1) tasksForTodolist.splice(index, 1)
       })
       .addCase(todolistsActions.addTodolistst, (state, action) => {
-        //return { ...state, [action.payload.todolist.id]: [] };
         state[action.payload.todolist.id] = []
       })
-      .addCase(todolistsActions.removeTodolist, (state, action) => {
-        //let copyState = { ...state };
-        //       delete copyState[action.payload.todolistId];
-        //       return copyState;
+      .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {
         delete state[action.payload.todolistId]
       })
-      .addCase(todolistsActions.setTodolistst, (state, action) => {
-        //const stateCopy = { ...state }
-        //       action.payload.todolist.forEach((tl: any) => {
-        //         stateCopy[tl.id] = []
-        action.payload.todolist.forEach((todo) => {
+      .addCase(todolistsThunks.getTodolistst.fulfilled, (state, action) => {
+        action.payload.todolists.forEach((todo) => {
           state[todo.id] = []
         })
       })
