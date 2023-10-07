@@ -43,7 +43,7 @@ export const UpdateTodolists = () => {
   useEffect(() => {
     const todolistId = "5cab166d-593e-4982-a5fe-c3a3e2d55f21"
     const title = "UPDATE TITLE"
-    todolistsApi.updateTodolist(todolistId, title).then((res) => {
+    todolistsApi.updateTodolist({ todolistId, title }).then((res) => {
       setState(res.data)
     })
   }, [])

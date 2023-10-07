@@ -46,11 +46,8 @@ test("correct todolist should be added", () => {
 
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist"
-
-  const endState = todolistsReducer(
-    startState,
-    todolistsActions.changeTodolistTitle({ todolistId: todolistId2, title: newTodolistTitle })
-  )
+  const arg = { todolistId: todolistId2, title: newTodolistTitle }
+  const endState = todolistsReducer(startState, todolistsThunks.changeTodolistTitle.fulfilled(arg, "requestId", arg))
 
   expect(endState[0].title).toBe("What to learn")
   expect(endState[1].title).toBe(newTodolistTitle)

@@ -1,6 +1,6 @@
 import { BaseResponse } from "common/types"
 import { AxiosResponse } from "axios"
-import { TodolistType } from "features/TodolistsList/Todolist/todolistsApi.types"
+import { TodolistType, UpdateTodolistTitleArgType } from "features/TodolistsList/Todolist/todolistsApi.types"
 import { instance } from "common/api"
 
 export const todolistsApi = {
@@ -17,9 +17,9 @@ export const todolistsApi = {
   deleteTodolist(todolistId: string) {
     return instance.delete<BaseResponse>(`todo-lists/${todolistId}`)
   },
-  updateTodolist(todolistId: string, title: string) {
-    return instance.put<BaseResponse, AxiosResponse<BaseResponse>, { title: string }>(`todo-lists/${todolistId}`, {
-      title,
+  updateTodolist(arg: UpdateTodolistTitleArgType) {
+    return instance.put<BaseResponse, AxiosResponse<BaseResponse>, { title: string }>(`todo-lists/${arg.todolistId}`, {
+      title: arg.title,
     })
   },
 }

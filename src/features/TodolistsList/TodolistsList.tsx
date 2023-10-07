@@ -3,12 +3,7 @@ import "app/App.css"
 import { Todolist } from "features/TodolistsList/Todolist/Todolist"
 import { Grid, Paper } from "@mui/material"
 import { tasksThunks } from "features/TodolistsList/tasksReducer"
-import {
-  changeTodolistTC,
-  FilterValuesType,
-  todolistsActions,
-  todolistsThunks,
-} from "features/TodolistsList/todolistsReducer"
+import { FilterValuesType, todolistsActions, todolistsThunks } from "features/TodolistsList/todolistsReducer"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app/store"
 import { RequestStatusType } from "app/appReducer"
@@ -89,8 +84,8 @@ export const TodolistsList: React.FC = () => {
   )
 
   const updateTodolistTitle = useCallback(
-    (todolistId: string, updateTitle: string) => {
-      dispatch(changeTodolistTC(todolistId, updateTitle))
+    (todolistId: string, title: string) => {
+      dispatch(todolistsThunks.changeTodolistTitle({ todolistId, title }))
     },
     [dispatch]
   )
