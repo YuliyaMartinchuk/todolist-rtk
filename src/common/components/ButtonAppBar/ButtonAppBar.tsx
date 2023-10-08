@@ -6,16 +6,17 @@ import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
-import { logOutTC } from "features/Login/authReducer"
+
 import { useAppDispatch } from "app/store"
 import { useSelector } from "react-redux"
 import { selectIsLoggedIn } from "features/Login/authSelector"
+import { authThunks } from "features/Login/authReducer"
 
 export function ButtonAppBar() {
   const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const LogOutHandler = () => {
-    dispatch(logOutTC)
+    dispatch(authThunks.logOut())
   }
   return (
     <Box sx={{ flexGrow: 1 }}>

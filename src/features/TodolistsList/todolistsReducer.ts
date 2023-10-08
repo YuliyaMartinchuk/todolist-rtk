@@ -133,21 +133,6 @@ export const changeTodolistTitle = createAppAsyncThunk<UpdateTodolistTitleArgTyp
   }
 )
 
-// export const changeTodolistTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
-//   dispatch(appActions.setStatus({ status: "loading" }))
-//   try {
-//     const res = await todolistsApi.updateTodolist(todolistId, title)
-//     if (res.data.resultCode === Result_Code.OK) {
-//       dispatch(todolistsActions.changeTodolistTitle({ todolistId, title }))
-//       dispatch(appActions.setStatus({ status: "succeeded" }))
-//     } else {
-//       handleServerAppError(dispatch, res.data)
-//     }
-//   } catch (e) {
-//     handleServerNetworkError(dispatch, e)
-//   }
-// }
-
 export const todolistsReducer = slice.reducer
 export const todolistsActions = slice.actions
 export const todolistsThunks = { getTodolistst, removeTodolist, addTodolist, changeTodolistTitle }

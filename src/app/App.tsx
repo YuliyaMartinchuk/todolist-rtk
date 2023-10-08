@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { RequestStatusType } from "app/appReducer"
-import { logOutTC, meTC } from "features/Login/authReducer"
+import { authThunks, meTC } from "features/Login/authReducer"
 
 import { Login } from "features/Login/Login"
 import { TodolistsList } from "features/TodolistsList/TodolistsList"
@@ -27,7 +27,7 @@ function App() {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
 
   const LogOutHandler = () => {
-    dispatch(logOutTC())
+    dispatch(authThunks.logOut())
   }
   useEffect(() => {
     dispatch(meTC())
