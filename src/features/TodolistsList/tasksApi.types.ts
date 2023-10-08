@@ -16,7 +16,7 @@ export type UpdateTaskArg = {
   domainModel: UpdateDomainTaskModelType
 }
 
-export type GetTaskBaseResponse = {
+export type GetTaskBaseResponseType = {
   totalCount: number
   error: string | null
   items: TaskType[]

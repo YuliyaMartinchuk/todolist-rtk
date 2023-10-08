@@ -7,10 +7,12 @@ import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
-import { useFormik } from "formik"
+import { FormikHelpers, useFormik } from "formik"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Navigate } from "react-router-dom"
 import { authThunks } from "features/Login/authReducer"
+import { LoginType } from "features/Login/authApi"
+import { BaseResponseType } from "common/types"
 
 type ErrorType = {
   email?: string
@@ -28,24 +30,31 @@ export const Login = () => {
       rememberMe: false,
     },
     validate: (values) => {
-      const errors: ErrorType = {}
-      if (!values.email) {
-        errors.email = "Required"
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address"
-      }
-
-      if (!values.password) {
-        errors.password = "Required"
-      } else if (values.password?.length < 4) {
-        errors.password = "Please add more symbols"
-      }
-
-      return errors
+      // const errors: ErrorType = {}
+      // if (!values.email) {
+      //   errors.email = "Required"
+      // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      //   errors.email = "Invalid email address"
+      // }
+      //
+      // if (!values.password) {
+      //   errors.password = "Required"
+      // } else if (values.password?.length < 4) {
+      //   errors.password = "Please add more symbols"
+      // }
+      // return errors
     },
-    onSubmit: (values) => {
+    onSubmit: (values, formikHelpers: FormikHelpers<LoginType>) => {
       dispatch(authThunks.login(values))
-      formik.resetForm()
+        .unwrap()
+        .then((res) => {})
+        .catch((err: BaseResponseType) => {
+          if (err.fieldsErrors) {
+            err.fieldsErrors.forEach((err) => {
+              formikHelpers.setFieldError(err.field, err.error)
+            })
+          }
+        })
     },
   })
 
@@ -70,11 +79,9 @@ export const Login = () => {
           <form onSubmit={formik.handleSubmit}>
             <FormGroup>
               <TextField label="Email" margin="normal" {...formik.getFieldProps("email")} />
-              {formik.touched.email && formik.errors.email && <div style={{ color: "red" }}>{formik.errors.email}</div>}
+              {formik.errors.email ? <div style={{ color: "red" }}>{formik.errors.email}</div> : null}
               <TextField type="password" label="Password" margin="normal" {...formik.getFieldProps("password")} />
-              {formik.touched.password && formik.errors.password && (
-                <div style={{ color: "red" }}>{formik.errors.password}</div>
-              )}
+              {formik.errors.password ? <div style={{ color: "red" }}>{formik.errors.password}</div> : null}
               <FormControlLabel
                 label={"Remember me"}
                 control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
