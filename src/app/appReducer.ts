@@ -11,11 +11,9 @@ const slice = createSlice({
   },
   reducers: {
     setStatus: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
-      //return { ...state, status: action.payload.status };
       state.status = action.payload.status
     },
     setError: (state, action: PayloadAction<{ error: string | null }>) => {
-      //return { ...state, error: action.payload.error }
       state.error = action.payload.error
     },
     setInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {

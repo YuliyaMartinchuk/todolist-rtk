@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { RequestStatusType } from "app/appReducer"
-import { authThunks, meTC } from "features/Login/authReducer"
+import { authThunks } from "features/Login/authReducer"
 
 import { Login } from "features/Login/Login"
 import { TodolistsList } from "features/TodolistsList/TodolistsList"
@@ -30,19 +30,12 @@ function App() {
     dispatch(authThunks.logOut())
   }
   useEffect(() => {
-    dispatch(meTC())
+    dispatch(authThunks.initializeApp())
   }, [])
 
   if (!isInitialized) {
     return (
-      <div
-        style={{
-          position: "fixed",
-          top: "30%",
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
+      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
         <CircularProgress />
       </div>
     )
