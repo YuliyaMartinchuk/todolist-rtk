@@ -1,5 +1,4 @@
 import { appActions, RequestStatusType } from "app/appReducer"
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { handleServerAppError } from "common/utils/handleServerAppError"
 import { Result_Code } from "common/enums"
@@ -7,6 +6,7 @@ import { todolistsApi } from "features/TodolistsList/todolistsApi"
 import { TodolistType, UpdateTodolistTitleArgType } from "features/TodolistsList/Todolist/todolistsApi.types"
 import { clearTasksAndTodolists } from "common/actions"
 import { createAppAsyncThunk } from "common/utils"
+import { thunkTryCatch } from "common/utils/thunkTryCatch"
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodolistDomainType = TodolistType & {
@@ -57,16 +57,10 @@ const slice = createSlice({
 export const getTodolistst = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
   "todolists/getTodolistst",
   async (_, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    try {
-      dispatch(appActions.setStatus({ status: "loading" }))
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsApi.getTodolist()
-      dispatch(appActions.setStatus({ status: "succeeded" }))
       return { todolists: res.data }
-    } catch (e) {
-      handleServerNetworkError(dispatch, e)
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 
@@ -74,21 +68,18 @@ export const removeTodolist = createAppAsyncThunk<{ todolistId: string }, string
   "todolists/removeTodolist",
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    try {
-      dispatch(appActions.setStatus({ status: "loading" }))
+    return thunkTryCatch(thunkAPI, async () => {
+      dispatch(todolistsActions.changeTodolistEntityStatus({ todolistId, entityStatus: "loading" }))
       const res = await todolistsApi.deleteTodolist(todolistId)
       if (res.data.resultCode === Result_Code.OK) {
-        dispatch(appActions.setStatus({ status: "succeeded" }))
         return { todolistId }
       } else {
         handleServerAppError(dispatch, res.data)
         return rejectWithValue(null)
       }
-    } catch (e) {
-      handleServerNetworkError(dispatch, e)
+    }).finally(() => {
       dispatch(todolistsActions.changeTodolistEntityStatus({ todolistId, entityStatus: "idle" }))
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 
@@ -96,8 +87,7 @@ export const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, strin
   "todolists/addTodolistst",
   async (newTitle, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    try {
-      dispatch(appActions.setStatus({ status: "loading" }))
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsApi.createTodoLists(newTitle)
       if (res.data.resultCode === Result_Code.OK) {
         dispatch(appActions.setStatus({ status: "succeeded" }))
@@ -106,10 +96,7 @@ export const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, strin
         handleServerAppError(dispatch, res.data)
         return rejectWithValue(null)
       }
-    } catch (e) {
-      handleServerNetworkError(dispatch, e)
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 
@@ -117,22 +104,23 @@ export const changeTodolistTitle = createAppAsyncThunk<UpdateTodolistTitleArgTyp
   "todolists/changeTodolistTitle",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsApi.updateTodolist(arg)
       if (res.data.resultCode === Result_Code.OK) {
-        dispatch(appActions.setStatus({ status: "succeeded" }))
         return arg
       } else {
         handleServerAppError(dispatch, res.data)
         return rejectWithValue(null)
       }
-    } catch (e) {
-      handleServerNetworkError(dispatch, e)
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 
 export const todolistsReducer = slice.reducer
 export const todolistsActions = slice.actions
-export const todolistsThunks = { getTodolistst, removeTodolist, addTodolist, changeTodolistTitle }
+export const todolistsThunks = {
+  getTodolistst,
+  removeTodolist,
+  addTodolist,
+  changeTodolistTitle,
+}

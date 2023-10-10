@@ -118,15 +118,16 @@ export const deleteTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
         return arg
       } else {
         handleServerAppError(dispatch, res.data)
-        dispatch(
-          tasksActions.changeEntityTaskStatus({
-            todolistId: arg.todolistId,
-            taskId: arg.taskId,
-            entityStatus: "idle",
-          })
-        )
         return rejectWithValue(null)
       }
+    }).finally(() => {
+      dispatch(
+        tasksActions.changeEntityTaskStatus({
+          todolistId: arg.todolistId,
+          taskId: arg.taskId,
+          entityStatus: "idle",
+        })
+      )
     })
   }
 )
