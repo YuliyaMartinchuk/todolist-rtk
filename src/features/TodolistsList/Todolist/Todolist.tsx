@@ -4,12 +4,12 @@ import IconButton from "@mui/material/IconButton"
 import Button, { ButtonProps } from "@mui/material/Button"
 import { Task } from "features/TodolistsList/Todolist/Task/Task"
 import { FilterValuesType } from "features/TodolistsList/todolistsReducer"
-import { useAppDispatch } from "app/store"
 import { RequestStatusType } from "app/appReducer"
 import { TaskDomainType } from "features/TodolistsList/TodolistsList"
 import { tasksThunks } from "features/TodolistsList/tasksReducer"
 import { AddItemForm, EditableSpan } from "common/components"
 import { TaskStatuses } from "common/enums"
+import { useActions } from "common/hooks/useActions"
 
 type PropsType = {
   todolistId: string
@@ -27,11 +27,10 @@ type PropsType = {
 }
 
 export const Todolist = memo((props: PropsType) => {
-  // console.log("Todolist")
-  const dispatch = useAppDispatch()
+  const { getTask } = useActions(tasksThunks)
 
   useEffect(() => {
-    dispatch(tasksThunks.getTask(props.todolistId))
+    getTask(props.todolistId)
   }, [])
 
   const removeTodolist = () => props.removeTodolist(props.todolistId)

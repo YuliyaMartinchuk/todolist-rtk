@@ -4,7 +4,7 @@ import Container from "@mui/material/Container"
 import LinearProgress from "@mui/material/LinearProgress"
 import { Navigate, Route, Routes } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress"
-import { useAppDispatch, useAppSelector } from "app/store"
+import { useAppSelector } from "app/store"
 import { RequestStatusType } from "app/appReducer"
 import { authThunks } from "features/Login/authReducer"
 
@@ -18,19 +18,20 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import Typography from "@mui/material/Typography"
 import { ErrorSnackbar } from "common/components"
+import { useActions } from "common/hooks/useActions"
 
 function App() {
-  const dispatch = useAppDispatch()
-
   const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized)
   const status = useAppSelector<RequestStatusType>((state) => state.app.status)
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
 
+  const { initializeApp, logOut } = useActions(authThunks)
+
   const LogOutHandler = () => {
-    dispatch(authThunks.logOut())
+    logOut()
   }
   useEffect(() => {
-    dispatch(authThunks.initializeApp())
+    initializeApp()
   }, [])
 
   if (!isInitialized) {
