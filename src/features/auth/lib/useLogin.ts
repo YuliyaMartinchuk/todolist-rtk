@@ -1,7 +1,7 @@
-import { LoginType } from "features/Login/authApi"
+import { LoginType } from "features/auth/api/authApi"
 import { useAppSelector } from "app/store"
 import { FormikHelpers, useFormik } from "formik"
-import { authThunks } from "features/Login/authReducer"
+import { authThunks } from "features/auth/model/authSlice"
 import { BaseResponseType } from "common/types"
 import { useActions } from "common/hooks/useActions"
 

@@ -1,17 +1,17 @@
-import { appActions, RequestStatusType } from "app/appReducer"
+import { appActions, RequestStatusType } from "app/model/appSlice"
 import { AssocTaskType } from "features/TodolistsList/TodolistsList"
-import { todolistsThunks } from "features/TodolistsList/todolistsReducer"
+import { todolistsThunks } from "features/TodolistsList/model/todolists/todolistsSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk, handleServerAppError } from "common/utils"
 import { Result_Code } from "common/enums"
-import { tasksApi } from "features/TodolistsList/tasksApi"
+import { tasksApi } from "features/TodolistsList/api/tasksApi"
 import {
   AddTaskArg,
   RemoveTaskArg,
   TaskType,
   UpdateTaskArg,
   UpdateTaskModelType,
-} from "features/TodolistsList/tasksApi.types"
+} from "features/TodolistsList/api/tasksApi.types"
 import { clearTasksAndTodolists } from "common/actions"
 import { thunkTryCatch } from "common/utils/thunkTryCatch"
 
@@ -54,7 +54,7 @@ const slice = createSlice({
         const index = tasksForTodolist.findIndex((task) => task.id === action.payload.taskId)
         if (index !== -1) tasksForTodolist[index] = { ...tasksForTodolist[index], ...action.payload.domainModel }
       })
-      .addCase(deleteTask.fulfilled, (state, action) => {
+      .addCase(removeTask.fulfilled, (state, action) => {
         const tasksForTodolist = state[action.payload.todolistId]
         const index = tasksForTodolist.findIndex((task) => task.id === action.payload.taskId)
         if (index !== -1) tasksForTodolist.splice(index, 1)
@@ -101,7 +101,7 @@ const createTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArg>("tasks/cr
   })
 })
 
-export const deleteTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
+export const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
   "tasks/deleteTask",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
@@ -158,6 +158,6 @@ const updateTask = createAppAsyncThunk<UpdateTaskArg, UpdateTaskArg>("tasks/upda
   })
 })
 
-export const tasksReducer = slice.reducer
+export const tasksSlice = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = { getTask, createTask, updateTask, deleteTask }
+export const tasksThunks = { getTask, createTask, updateTask, removeTask }

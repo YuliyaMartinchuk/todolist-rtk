@@ -8,7 +8,7 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { Navigate } from "react-router-dom"
-import { useLogin } from "features/Login/useLogin"
+import { useLogin } from "features/auth/lib/useLogin"
 
 export const Login = () => {
   const { formik, isLoggedIn } = useLogin()

@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { appActions } from "app/appReducer"
+import { appActions } from "app/model/appSlice"
 import { BaseResponseType } from "common/types"
 
 export const handleServerAppError = <T>(dispatch: Dispatch, data: BaseResponseType<T>, showError: boolean = true) => {

@@ -9,8 +9,8 @@ import MenuIcon from "@mui/icons-material/Menu"
 
 import { useAppDispatch } from "app/store"
 import { useSelector } from "react-redux"
-import { selectIsLoggedIn } from "features/Login/authSelector"
-import { authThunks } from "features/Login/authReducer"
+import { selectIsLoggedIn } from "features/auth/model/authSelector"
+import { authThunks } from "features/auth/model/authSlice"
 
 export function ButtonAppBar() {
   const isLoggedIn = useSelector(selectIsLoggedIn)

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { appActions } from "app/appReducer"
+import { appActions } from "app/model/appSlice"
 import { clearTasksAndTodolists } from "common/actions/commonActions"
 import { handleServerAppError } from "common/utils/handleServerAppError"
-import { authAPI, LoginType } from "features/Login/authApi"
+import { authAPI, LoginType } from "features/auth/api/authApi"
 import { Result_Code } from "common/enums"
 import { createAppAsyncThunk } from "common/utils"
 import { BaseResponseType } from "common/types"
@@ -80,5 +80,5 @@ export const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefi
   }
 )
 
-export const authReducer = slice.reducer
+export const authSlice = slice.reducer
 export const authThunks = { login, logOut, initializeApp }

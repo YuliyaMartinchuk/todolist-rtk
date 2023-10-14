@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { action } from "@storybook/addon-actions"
 import React, { FC, useState } from "react"
-import { Task, TaskPropType } from "features/TodolistsList/Todolist/Task/Task"
+import { Props, Task } from "features/TodolistsList/ui/Todolist/Tasks/Task/Task"
 import { TaskPriorities, TaskStatuses } from "common/enums"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -12,9 +11,6 @@ const meta: Meta<typeof Task> = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   args: {
-    changeTaskStatus: action("changeTaskStatus"),
-    updateTask: action("changeTaskTitle"),
-    removeTask: action("removeTask"),
     task: {
       id: "adsw",
       title: "JS",
@@ -58,7 +54,7 @@ export const TaskIsNotStory: Story = {
   },
 }
 
-const TaskWithHook: FC<TaskPropType> = (args) => {
+const TaskWithHook: FC<Props> = (args) => {
   const [task, setTask] = useState(args.task)
 
   const changeTaskStatus = () => {
@@ -68,16 +64,9 @@ const TaskWithHook: FC<TaskPropType> = (args) => {
     setTask({ ...task, title: updateTitle })
   }
 
-  return <Task changeTaskStatus={changeTaskStatus} updateTask={updateTask} removeTask={args.removeTask} task={task} />
+  return <Task task={task} todolistId={args.todolistId} />
 }
 
 export const TaskWithHookStory: Story = {
-  render: (args) => (
-    <TaskWithHook
-      changeTaskStatus={args.changeTaskStatus}
-      updateTask={args.updateTask}
-      removeTask={args.removeTask}
-      task={args.task}
-    />
-  ),
+  render: (args) => <TaskWithHook task={args.task} todolistId={args.todolistId} />,
 }
