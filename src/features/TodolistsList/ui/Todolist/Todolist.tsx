@@ -1,11 +1,9 @@
 import React, { memo, useCallback, useEffect } from "react"
 import DeleteIcon from "@mui/icons-material/Delete"
 import IconButton from "@mui/material/IconButton"
-import Button, { ButtonProps } from "@mui/material/Button"
 import {
   FilterValuesType,
   TodolistDomainType,
-  todolistsActions,
   todolistsThunks,
 } from "features/TodolistsList/model/todolists/todolistsSlice"
 import { RequestStatusType } from "app/model/appSlice"
@@ -14,6 +12,7 @@ import { tasksThunks } from "features/TodolistsList/model/tasks/tasksSlice"
 import { AddItemForm, EditableSpan } from "common/components"
 import { useActions } from "common/hooks/useActions"
 import { Tasks } from "features/TodolistsList/ui/Todolist/Tasks/Tasks"
+import { FilterTasksButtons } from "features/TodolistsList/ui/Todolist/FilterTasksButtons/FilterTasksButtons"
 
 type Props = {
   todolist: TodolistDomainType
@@ -25,7 +24,6 @@ type Props = {
 
 export const Todolist: React.FC<Props> = memo(({ todolist, title, tasks, entityStatus, filter }) => {
   const { getTask, createTask } = useActions(tasksThunks)
-  const { changeTodolistFilter } = useActions(todolistsActions)
   const { removeTodolist, changeTodolistTitle } = useActions(todolistsThunks)
 
   useEffect(() => {
@@ -33,19 +31,6 @@ export const Todolist: React.FC<Props> = memo(({ todolist, title, tasks, entityS
   }, [])
 
   const removeTodolistHandler = () => removeTodolist(todolist.id)
-
-  const onAllClickHandler = useCallback(
-    () => changeTodolistFilter({ todolistId: todolist.id, filter: "all" }),
-    [todolist.id, changeTodolistFilter]
-  )
-  const onActiveClickHandler = useCallback(
-    () => changeTodolistFilter({ todolistId: todolist.id, filter: "active" }),
-    [todolist.id]
-  )
-  const onCompletedClickHandler = useCallback(
-    () => changeTodolistFilter({ todolistId: todolist.id, filter: "completed" }),
-    [todolist.id]
-  )
 
   const addTaskCallBack = useCallback(
     (title: string) => {
@@ -75,40 +60,8 @@ export const Todolist: React.FC<Props> = memo(({ todolist, title, tasks, entityS
         <Tasks tasks={tasks} todolist={todolist} />
       </div>
       <div style={{ paddingTop: "10px" }}>
-        <ButtonWithMemo
-          title={"All"}
-          variant={filter === "all" ? "outlined" : "contained"}
-          color={"success"}
-          onClick={onAllClickHandler}
-        />
-        <ButtonWithMemo
-          title={"Active"}
-          variant={filter === "active" ? "outlined" : "contained"}
-          color={"secondary"}
-          onClick={onActiveClickHandler}
-        />
-        <ButtonWithMemo
-          title={"Completed"}
-          variant={filter === "completed" ? "outlined" : "contained"}
-          color={"error"}
-          onClick={onCompletedClickHandler}
-        />
+        <FilterTasksButtons todolist={todolist} />
       </div>
     </div>
-  )
-})
-
-type ButtonWithMemoPropsType = {
-  title: string
-  variant: "text" | "outlined" | "contained"
-  color: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
-  onClick: () => void
-}
-
-const ButtonWithMemo = memo((props: ButtonProps) => {
-  return (
-    <Button variant={props.variant} color={props.color} onClick={props.onClick}>
-      {props.title}
-    </Button>
   )
 })
