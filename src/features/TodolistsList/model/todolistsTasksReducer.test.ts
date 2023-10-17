@@ -4,7 +4,7 @@ import {
   todolistsThunks,
 } from "features/TodolistsList/model/todolists/todolistsSlice"
 import { tasksSlice } from "features/TodolistsList/model/tasks/tasksSlice"
-import { AssocTaskType } from "features/TodolistsList/TodolistsList"
+import { AssocTaskType } from "features/TodolistsList/api/tasksApi.types"
 
 test("ids should be equals", () => {
   const startTasksState: AssocTaskType = {}

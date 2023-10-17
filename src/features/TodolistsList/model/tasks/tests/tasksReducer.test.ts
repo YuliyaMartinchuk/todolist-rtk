@@ -1,7 +1,7 @@
 import { TaskPriorities, TaskStatuses } from "common/enums"
 import { tasksSlice, tasksThunks } from "features/TodolistsList/model/tasks/tasksSlice"
-import { AssocTaskType } from "features/TodolistsList/TodolistsList"
 import { todolistsThunks } from "features/TodolistsList/model/todolists/todolistsSlice"
+import { AssocTaskType, TaskDomainType } from "features/TodolistsList/api/tasksApi.types"
 
 let startState: AssocTaskType
 
@@ -100,7 +100,7 @@ test("correct task should be deleted from correct array", () => {
 
   expect(endState["todolistId1"].length).toBe(3)
   expect(endState["todolistId2"].length).toBe(2)
-  expect(endState["todolistId2"].every((t) => t.id !== "2")).toBeTruthy()
+  expect(endState["todolistId2"].every((t: TaskDomainType) => t.id !== "2")).toBeTruthy()
 })
 
 test("correct task should be added to correct array", () => {

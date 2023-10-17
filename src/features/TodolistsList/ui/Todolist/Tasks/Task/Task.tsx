@@ -2,12 +2,12 @@ import React, { ChangeEvent, memo } from "react"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { TaskDomainType } from "features/TodolistsList/TodolistsList"
 import { EditableSpan } from "common/components"
 import { TaskStatuses } from "common/enums"
 import { useActions } from "common/hooks/useActions"
 import { tasksThunks } from "features/TodolistsList/model/tasks/tasksSlice"
 import s from "./Task.module.css"
+import { TaskDomainType } from "features/TodolistsList/api/tasksApi.types"
 
 export type Props = {
   task: TaskDomainType

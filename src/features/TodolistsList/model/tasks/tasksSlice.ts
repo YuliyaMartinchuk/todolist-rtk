@@ -1,5 +1,4 @@
 import { appActions, RequestStatusType } from "app/model/appSlice"
-import { AssocTaskType } from "features/TodolistsList/TodolistsList"
 import { todolistsThunks } from "features/TodolistsList/model/todolists/todolistsSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk, handleServerAppError } from "common/utils"
@@ -7,7 +6,9 @@ import { Result_Code } from "common/enums"
 import { tasksApi } from "features/TodolistsList/api/tasksApi"
 import {
   AddTaskArg,
+  AssocTaskType,
   RemoveTaskArg,
+  TaskDomainType,
   TaskType,
   UpdateTaskArg,
   UpdateTaskModelType,
@@ -135,7 +136,7 @@ export const removeTask = createAppAsyncThunk<RemoveTaskArg, RemoveTaskArg>(
 const updateTask = createAppAsyncThunk<UpdateTaskArg, UpdateTaskArg>("tasks/updateTask", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue, getState } = thunkAPI
   return thunkTryCatch(thunkAPI, async () => {
-    const task = getState().tasks[arg.todolistId].find((t) => t.id === arg.taskId)
+    const task = getState().tasks[arg.todolistId].find((t: TaskDomainType) => t.id === arg.taskId)
     if (!task) {
       dispatch(appActions.setError({ error: "Task not found in the state" }))
       return rejectWithValue(null)

@@ -1,4 +1,5 @@
 import { TaskPriorities, TaskStatuses } from "common/enums"
+import { RequestStatusType } from "app/model/appSlice"
 
 export type AddTaskArg = {
   todolistId: string
@@ -51,4 +52,12 @@ export type TaskType = {
   todoListId: string
   order: number
   addedDate: string
+}
+
+export type AssocTaskType = {
+  [key: string]: TaskDomainType[]
+}
+
+export type TaskDomainType = TaskType & {
+  entityStatus: RequestStatusType
 }

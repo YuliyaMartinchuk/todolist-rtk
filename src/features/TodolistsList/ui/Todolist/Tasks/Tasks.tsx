@@ -1,8 +1,8 @@
 import React from "react"
-import { TaskDomainType } from "features/TodolistsList/TodolistsList"
 import { TaskStatuses } from "common/enums"
 import { Task } from "features/TodolistsList/ui/Todolist/Tasks/Task/Task"
 import { TodolistDomainType } from "features/TodolistsList/model/todolists/todolistsSlice"
+import { TaskDomainType } from "features/TodolistsList/api/tasksApi.types"
 
 export type Props = {
   tasks: TaskDomainType[]
