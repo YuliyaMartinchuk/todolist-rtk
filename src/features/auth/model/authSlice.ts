@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { appActions } from "app/model/appSlice"
 import { clearTasksAndTodolists } from "common/actions/commonActions"
 import { handleServerAppError } from "common/utils/handleServerAppError"
@@ -13,22 +13,24 @@ const slice = createSlice({
   initialState: {
     isLoggedIn: false,
   },
-  reducers: {
-    setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
-      state.isLoggedIn = action.payload.isLoggedIn
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(login.fulfilled, (state, action) => {
+    builder.addMatcher(
+      (action) => {
+        if (
+          action.type === "auth/login/fulfilled" ||
+          action.type === "auth/logout/fulfilled" ||
+          action.type === "app/initializeApp/fulfilled"
+        ) {
+          return true
+        } else {
+          return false
+        }
+      },
+      (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn
-      })
-      .addCase(logOut.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn
-      })
-      .addCase(initializeApp.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn
-      })
+      }
+    )
   },
 })
 

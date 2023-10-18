@@ -10,5 +10,4 @@ export const handleServerAppError = <T>(dispatch: Dispatch, data: BaseResponseTy
       dispatch(appActions.setError({ error: "Some error occurred" }))
     }
   }
-  dispatch(appActions.setStatus({ status: "failed" }))
 }

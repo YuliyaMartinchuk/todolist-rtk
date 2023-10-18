@@ -10,15 +10,39 @@ const slice = createSlice({
     error: null as string | null,
   },
   reducers: {
-    setStatus: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
-      state.status = action.payload.status
-    },
     setError: (state, action: PayloadAction<{ error: string | null }>) => {
       state.error = action.payload.error
     },
     setInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
       state.isInitialized = action.payload.isInitialized
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending")
+        },
+        (state, action) => {
+          state.status = "loading"
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/fulfilled")
+        },
+        (state, action) => {
+          state.status = "succeeded"
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/rejected")
+        },
+        (state, action) => {
+          state.status = "failed"
+        }
+      )
   },
 })
 
