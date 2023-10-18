@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { appActions } from "app/model/appSlice"
 import { clearTasksAndTodolists } from "common/actions/commonActions"
 import { handleServerAppError } from "common/utils/handleServerAppError"
@@ -16,17 +16,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action) => {
-        if (
-          action.type === "auth/login/fulfilled" ||
-          action.type === "auth/logout/fulfilled" ||
-          action.type === "app/initializeApp/fulfilled"
-        ) {
-          return true
-        } else {
-          return false
-        }
-      },
+      isAnyOf(authThunks.login.fulfilled, authThunks.logOut.fulfilled, authThunks.initializeApp.fulfilled),
       (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn
       }
