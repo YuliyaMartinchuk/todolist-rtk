@@ -4,7 +4,6 @@ import { Todolist } from "features/TodolistsList/ui/Todolist/Todolist"
 import { Grid, Paper } from "@mui/material"
 import { todolistsThunks } from "features/TodolistsList/model/todolists/todolistsSlice"
 import { useSelector } from "react-redux"
-import { useAppDispatch } from "app/store"
 import { Navigate } from "react-router-dom"
 import { selectTasks } from "features/TodolistsList/model/tasks/tasksSelector"
 import { selectTodolists } from "features/TodolistsList/model/todolists/todolistsSelector"
@@ -16,7 +15,6 @@ export const TodolistsList: React.FC = () => {
   const todolists = useSelector(selectTodolists)
   const tasks = useSelector(selectTasks)
   const isLoggedIn = useSelector(selectIsLoggedIn)
-  const dispatch = useAppDispatch()
 
   const { getTodolistst, addTodolist } = useActions(todolistsThunks)
 
@@ -25,19 +23,16 @@ export const TodolistsList: React.FC = () => {
     getTodolistst()
   }, [])
 
-  const addTodolists = useCallback(
-    (newTitle: string) => {
-      addTodolist(newTitle)
-    },
-    [dispatch]
-  )
+  const addTodolistCallback = useCallback((newTitle: string) => {
+    return addTodolist(newTitle).unwrap()
+  }, [])
 
   if (!isLoggedIn) return <Navigate to={"/login"} />
 
   return (
     <>
       <Grid container style={{ padding: "10px" }}>
-        <AddItemForm callBack={addTodolists} />
+        <AddItemForm callBack={addTodolistCallback} />
       </Grid>
       <Grid container spacing={3}>
         {todolists.map((tl) => {

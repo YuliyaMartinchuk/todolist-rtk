@@ -96,8 +96,8 @@ const createTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArg>("tasks/cr
       const task = res.data.data.item
       return { task }
     } else {
-      handleServerAppError(dispatch, res.data)
-      return rejectWithValue(null)
+      handleServerAppError(dispatch, res.data, false)
+      return rejectWithValue(res.data)
     }
   })
 })

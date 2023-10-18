@@ -1,14 +1,14 @@
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
+import { BaseResponseType } from "common/types"
 
-export type PropsType = {
-  callBack: (newTitle: string) => void
+export type Props = {
+  callBack: (newTitle: string) => Promise<any>
   disabled?: boolean
 }
 
-export const AddItemForm = memo((props: PropsType) => {
-  // console.log("AddItemForm")
+export const AddItemForm: React.FC<Props> = memo(({ callBack, disabled }) => {
   let [title, setTitle] = useState("")
   let [error, setError] = useState<string | null>(null)
 
@@ -16,11 +16,16 @@ export const AddItemForm = memo((props: PropsType) => {
     setTitle(e.currentTarget.value)
   }
 
-  const addTask = () => {
+  const addItemHandler = () => {
     let newTitle = title.trim()
     if (newTitle !== "") {
-      props.callBack(newTitle)
-      setTitle("")
+      callBack(newTitle)
+        .then((res) => {
+          setTitle("")
+        })
+        .catch((e: BaseResponseType) => {
+          setError(e.messages[0])
+        })
     } else {
       setError("Title is required")
     }
@@ -29,7 +34,7 @@ export const AddItemForm = memo((props: PropsType) => {
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (error) setError(null)
     if (e.charCode === 13) {
-      addTask()
+      addItemHandler()
     }
   }
 
@@ -48,13 +53,13 @@ export const AddItemForm = memo((props: PropsType) => {
         value={title}
         onChange={onChangeHandler}
         onKeyPress={onKeyPressHandler}
-        disabled={props.disabled}
+        disabled={disabled}
         id="outlined-basic"
         label={error ? "Title is required" : "Type out smth."}
         variant="outlined"
         size="small"
       />
-      <Button variant="contained" onClick={addTask} style={muiStyles} disabled={props.disabled}>
+      <Button variant="contained" onClick={addItemHandler} style={muiStyles} disabled={disabled}>
         +
       </Button>
     </div>

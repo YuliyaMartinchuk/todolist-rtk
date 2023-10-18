@@ -22,7 +22,7 @@ export const Todolist: React.FC<Props> = memo(({ todolist, tasks }) => {
 
   const addTaskCallBack = useCallback(
     (title: string) => {
-      createTask({ todolistId: todolist.id, title }).unwrap()
+      return createTask({ todolistId: todolist.id, title }).unwrap()
     },
     [todolist.id]
   )
