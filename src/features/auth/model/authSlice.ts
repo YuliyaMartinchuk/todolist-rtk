@@ -28,47 +28,42 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginType, { rejectVa
   "auth/login",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.login(arg)
-      if (res.data.resultCode === Result_Code.OK) {
-        return { isLoggedIn: true }
-      } else {
-        const isShowAppError = !res.data.fieldsErrors.length
-        handleServerAppError(dispatch, res.data, isShowAppError)
-        return rejectWithValue(res.data)
-      }
-    })
+    const res = await authAPI.login(arg)
+    if (res.data.resultCode === Result_Code.OK) {
+      return { isLoggedIn: true }
+    } else {
+      return rejectWithValue(res.data)
+    }
   }
 )
 
 const logOut = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("auth/logout", async (_, thunkAPI) => {
   const res = await authAPI.logOut()
   const { dispatch, rejectWithValue } = thunkAPI
-  return thunkTryCatch(thunkAPI, async () => {
-    if (res.data.resultCode === Result_Code.OK) {
-      dispatch(clearTasksAndTodolists())
-      return { isLoggedIn: false }
-    } else {
-      handleServerAppError(dispatch, res.data)
-      return rejectWithValue(null)
-    }
-  })
+  if (res.data.resultCode === Result_Code.OK) {
+    dispatch(clearTasksAndTodolists())
+    return { isLoggedIn: false }
+  } else {
+    return rejectWithValue(null)
+  }
 })
 
 export const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
   "auth/initializeApp",
   async (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
+    try {
       const res = await authAPI.me()
       if (res.data.resultCode === Result_Code.OK) {
         return { isLoggedIn: true }
       } else {
         return rejectWithValue(null)
       }
-    }).finally(() => {
+    } catch (e) {
+      return rejectWithValue(null)
+    } finally {
       dispatch(appActions.setInitialized({ isInitialized: true }))
-    })
+    }
   }
 )
 
