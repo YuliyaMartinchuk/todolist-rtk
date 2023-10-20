@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import React, { FC, useState } from "react"
 import { Props, Task } from "features/TodolistsList/ui/Todolist/Tasks/Task/Task"
 import { TaskPriorities, TaskStatuses } from "common/enums"
+import { ReduxStoreProviderDecorator } from "common/utils"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Task> = {
@@ -24,7 +25,9 @@ const meta: Meta<typeof Task> = {
       addedDate: "",
       entityStatus: "idle",
     },
+    todolistId: "olh",
   },
+  decorators: [ReduxStoreProviderDecorator],
 }
 
 export default meta
@@ -51,6 +54,7 @@ export const TaskIsNotStory: Story = {
       addedDate: "",
       entityStatus: "idle",
     },
+    todolistId: "olh",
   },
 }
 
