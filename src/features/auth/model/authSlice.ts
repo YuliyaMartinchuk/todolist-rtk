@@ -1,26 +1,35 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { appActions } from "app/model/appSlice"
 import { clearTasksAndTodolists } from "common/actions/commonActions"
-import { handleServerAppError } from "common/utils/handleServerAppError"
-import { authAPI, LoginType } from "features/auth/api/authApi"
+import { authAPI, LoginType, securityApi } from "features/auth/api/authApi"
 import { Result_Code } from "common/enums"
 import { createAppAsyncThunk } from "common/utils"
 import { BaseResponseType } from "common/types"
-import { thunkTryCatch } from "common/utils/thunkTryCatch"
 
 const slice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
+    captchaUrl: "",
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(
-      isAnyOf(authThunks.login.fulfilled, authThunks.logOut.fulfilled, authThunks.initializeApp.fulfilled),
-      (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn
-      }
-    )
+    builder
+      .addCase(getCaptcha.fulfilled, (state, action) => {
+        state.captchaUrl = action.payload.captchaUrl
+      })
+      .addMatcher(
+        isAnyOf(authThunks.login.fulfilled, authThunks.logOut.fulfilled, authThunks.initializeApp.fulfilled),
+        (state, action) => {
+          state.isLoggedIn = action.payload.isLoggedIn
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("login/fulfilled"),
+        (state) => {
+          state.captchaUrl = ""
+        }
+      )
   },
 })
 
@@ -67,5 +76,17 @@ export const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefi
   }
 )
 
+const getCaptcha = createAppAsyncThunk<CaptchaArgType, undefined>("auth/getCaptcha", async (_, { rejectWithValue }) => {
+  try {
+    const res = await securityApi.getCaptchaUrl()
+    return { captchaUrl: res.data.url }
+  } catch (e) {
+    return rejectWithValue(null)
+  }
+})
+
 export const authSlice = slice.reducer
-export const authThunks = { login, logOut, initializeApp }
+export const authThunks = { login, logOut, initializeApp, getCaptcha }
+export type CaptchaArgType = {
+  captchaUrl: string
+}

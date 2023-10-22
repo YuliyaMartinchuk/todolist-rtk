@@ -18,15 +18,25 @@ export const authAPI = {
   },
 }
 
+export const securityApi = {
+  getCaptchaUrl() {
+    return instance.get<SecurityParamsType>(`security/get-captcha-url`)
+  },
+}
+
 export type LoginType = {
   email: string
   password: string
   rememberMe: boolean
-  captcha?: string
+  captcha?: string | null
 }
 
 export type UserDate = {
   id: number
   email: string
   login: string
+}
+
+export type SecurityParamsType = {
+  url: string
 }

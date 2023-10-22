@@ -9,9 +9,13 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { Navigate } from "react-router-dom"
 import { useLogin } from "features/auth/lib/useLogin"
+import { selectCaptchaUrl } from "features/auth/model/authSelector"
+import { useAppSelector } from "app/store"
 
 export const Login = () => {
   const { formik, isLoggedIn } = useLogin()
+
+  const captchaUrl = useAppSelector(selectCaptchaUrl)
 
   if (isLoggedIn) return <Navigate to={"/"} />
 
@@ -43,6 +47,10 @@ export const Login = () => {
                 label={"Remember me"}
                 control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
               />
+              {captchaUrl && <img src={captchaUrl} alt="captcha-img" />}
+              {captchaUrl && (
+                <TextField type="password" label="captcha" margin="normal" {...formik.getFieldProps("captcha")} />
+              )}
               <Button
                 type={"submit"}
                 variant={"contained"}
