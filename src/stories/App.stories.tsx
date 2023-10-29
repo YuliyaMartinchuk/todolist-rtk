@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import React from "react"
 
-import App from "app/ui/App"
-import { ReduxStoreProviderDecorator } from "common/utils/reduxStoreProviderDecorator"
+import { App } from "app/ui/App"
+import { ReduxStoreProviderDecorator } from "common/utils/decorators/reduxStoreProviderDecorator"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof App> = {

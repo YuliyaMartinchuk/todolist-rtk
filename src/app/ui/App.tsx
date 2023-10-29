@@ -1,15 +1,18 @@
 import React, { useEffect } from "react"
 import "app/ui/App.css"
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress"
-import { useAppSelector } from "app/store"
 import { authThunks } from "features/auth/model/authSlice"
-import { ErrorSnackbar, Header, Routing } from "common/components"
-import { useActions } from "common/hooks/useActions"
+import { ErrorSnackbar, Header } from "common/components"
+import { useActions } from "common/hooks"
+import Container from "@mui/material/Container"
+import { useRoutes } from "common/components/Routes"
+import { useAppSelector } from "app/model/store"
 
-function App() {
+export const App = () => {
   const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized)
 
   const { initializeApp } = useActions(authThunks)
+  const routes = useRoutes()
 
   useEffect(() => {
     initializeApp()
@@ -27,9 +30,7 @@ function App() {
     <div className="App">
       <ErrorSnackbar />
       <Header />
-      <Routing />
+      <Container fixed>{routes}</Container>
     </div>
   )
 }
-
-export default App

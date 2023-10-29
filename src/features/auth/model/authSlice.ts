@@ -40,6 +40,9 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginType, { rejectVa
     const res = await authAPI.login(arg)
     if (res.data.resultCode === Result_Code.OK) {
       return { isLoggedIn: true }
+    } else if (res.data.resultCode === Result_Code.CAPTCHA_ERROR) {
+      dispatch(getCaptcha())
+      return rejectWithValue(res.data)
     } else {
       return rejectWithValue(res.data)
     }

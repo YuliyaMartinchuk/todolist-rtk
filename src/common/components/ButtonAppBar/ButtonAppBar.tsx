@@ -7,7 +7,7 @@ import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 
-import { useAppDispatch } from "app/store"
+import { useAppDispatch } from "app/model/store"
 import { useSelector } from "react-redux"
 import { selectIsLoggedIn } from "features/auth/model/authSelector"
 import { authThunks } from "features/auth/model/authSlice"

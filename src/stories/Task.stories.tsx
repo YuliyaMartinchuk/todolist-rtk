@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import React, { FC, useState } from "react"
-import { Props, Task } from "features/TodolistsList/ui/Todolist/Tasks/Task/Task"
+import { Props, Task } from "features/TodolistsList/todolists/ui/Todolist/Tasks/Task/Task"
 import { TaskPriorities, TaskStatuses } from "common/enums"
 import { ReduxStoreProviderDecorator } from "common/utils"
 

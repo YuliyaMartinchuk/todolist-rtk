@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
-import { BaseResponseType } from "common/types"
+import { RejectValueType } from "common/utils"
 
 export type Props = {
   callBack: (newTitle: string) => Promise<any>
@@ -23,9 +23,10 @@ export const AddItemForm: React.FC<Props> = memo(({ callBack, disabled }) => {
         .then((res) => {
           setTitle("")
         })
-        .catch((e: BaseResponseType) => {
-          if (e?.resultCode) {
-            setError(e.messages[0])
+        .catch((e: RejectValueType) => {
+          if (e.data) {
+            const messages = e.data.messages
+            setError(messages.length ? messages[0] : "Some error occurred")
           }
         })
     } else {
@@ -33,9 +34,9 @@ export const AddItemForm: React.FC<Props> = memo(({ callBack, disabled }) => {
     }
   }
 
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (error) setError(null)
-    if (e.charCode === 13) {
+    if (e.key === "Enter") {
       addItemHandler()
     }
   }
@@ -54,12 +55,13 @@ export const AddItemForm: React.FC<Props> = memo(({ callBack, disabled }) => {
         error={!!error}
         value={title}
         onChange={onChangeHandler}
-        onKeyPress={onKeyPressHandler}
+        onKeyDown={onKeyDownHandler}
         disabled={disabled}
         id="outlined-basic"
-        label={error ? "Title is required" : "Type out smth."}
+        label={"Type value"}
         variant="outlined"
         size="small"
+        helperText={error}
       />
       <Button variant="contained" onClick={addItemHandler} style={muiStyles} disabled={disabled}>
         +

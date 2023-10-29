@@ -3,14 +3,14 @@ import "./index.css"
 import * as serviceWorker from "./serviceWorker"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import { store } from "app/store"
+import { store } from "app/model/store"
 import { BrowserRouter } from "react-router-dom"
-import App from "app/ui/App"
+import { App } from "app/ui/App"
 
 const container = document.getElementById("root") as HTMLElement
 const root = createRoot(container)
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/todolist-rtk">
     <Provider store={store}>
       <App />
     </Provider>
